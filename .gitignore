@@ -50,3 +50,5 @@ crashlytics-build.properties
 
 _site
 .sass-cache
+
+_deploy.yml
