@@ -2,12 +2,11 @@
 layout: post
 title: "Getting Started With Android Development Using Groovy 2.4 and Android Studio"
 date: 2015-02-07T18:28:25+00:00
-categories: [grails, grails 2.1.3, grails 2.1.5, grails 2.2.5, grails upgrade]
 ---
 
 Groovy 2.4 was released last month with native support for Android development.
 
-In this post I’ll explain how to set up a new Android Studio project with Groovy support as I couldn't find a decent tutorial to explain it for newcomers to Android development (like myself).
+In this post I’ll explain how to set up a new Android Studio project with Groovy support as I couldn't find a decent tutorial to explain it for newcomers (like myself).
 
 # Why Groovy?
 
@@ -15,7 +14,7 @@ If you’re new to Groovy, you may ask why would I want to do this?
 
 In short: less code = (hopefully) less buggy and more readable code. Here are some of the benefits of using Groovy over Java:
 
-* Syntax: with support of closures and dynamic typing, Groovy allows you to write much more readable code in fewer lines of code. Some examples:
+* Syntax: with features like closures and dynamic typing, Groovy allows you to write much more readable code in fewer lines of code. Some examples:
 
         ListView myListView = (ListView) findViewById(android.R.id.list)
         /* Implicit typing - and no semicolons! */
@@ -27,15 +26,20 @@ In short: less code = (hopefully) less buggy and more readable code. Here are so
         def extras = intent.extras
 
 
+        ['a', 'b', 'c'].each {
+            println it
+        }
+
+
 * [Powerful collections](http://groovy.codehaus.org/Collections): creating and manipulating lists / maps is very easy and powerful out of the box (each, findAll, collect, etc), which is a good way to shorten your code.
 
 
-* [Dynamic](http://groovy.codehaus.org/Dynamic+Groovy): Groovy’s metaclassing capabilities allow you to extend an existing class behaviour such as overriding or adding functionality if you like.
+* [Dynamic](http://groovy.codehaus.org/Dynamic+Groovy): Groovy’s metaclassing capabilities allow you to extend or replace an existing class behaviour if you like.
 
 
 # Setup
 
-So let's get started by creating a new project using Android Studio. For this example I’ll use the Basic Activity template with the default settings.
+So let's get started by creating a new project using Android Studio. For this example I'm using the Basic Activity template with the default settings.
 
 You should see the following file structure created:
 
@@ -50,7 +54,7 @@ The first one is project-wide build.gradle which applies to all project modules.
 
 In the app module build.gradle, we need to make two changes:
 
-* Apply the groovy-android plugin below the line "apply plugin: 'com.android.application'" - adds support for the Groovy language in the Android Gradle toolchain.
+* Apply the groovy-android plugin below the line "apply plugin: 'com.android.application'" - which adds support for the Groovy language in the Android Gradle toolchain.
 
         apply plugin: 'groovyx.grooid.groovy-android'
 
@@ -135,7 +139,7 @@ Let's take MainActivity.groovy as an example: try removing semicolons at the end
 
 # Issues and tips
 
-* As I mentioned before, Android Studio doesn't fully support Groovy yet. For example you can't right click and create a Groovy class. You would have to create an empty file ending with '.groovy', and the annoying left hand side menu won't update to source folder name 'groovy'.
+* As I mentioned before, Android Studio doesn't fully support Groovy yet. For example you can't right click and create a Groovy class. You would have to create an empty file ending with '.groovy', and the annoying left hand side menu won't update to source folder name from 'java'.
 
 * Annotate your classes with [@CompileStatic](http://docs.codehaus.org/display/GroovyJSR/GEP+10+-+Static+compilation) - this is especially good if you're just starting out or don't need to use much of the dynamic stuff as it forces strict typing at compile time. **It also helps greatly in performance**.
 
@@ -144,8 +148,7 @@ Let's take MainActivity.groovy as an example: try removing semicolons at the end
 
         }
 
-
-* ProGuard rules: Add the following to your app/proguard-rules.pro - this helps keep your app at the minimal size when you build your APKs
+* ProGuard rules: Add the following to your app/proguard-rules.pro - this helps in keeping your app APK size to the minimum and ensures some Groovy classes don't get removed by ProGuard.
 
         -dontobfuscate
         -keep class org.codehaus.groovy.vmplugin.**
@@ -163,7 +166,7 @@ Let's take MainActivity.groovy as an example: try removing semicolons at the end
 
 * Gradle build task fails due to lint errors:
 
-    If you run './gradlew clean build' in your project's root directory, it'll fail with a "InvalidPackage: Package not included in Android" lint error - [full error message](http://pastebin.com/raw.php?i=jtPwcFyE).
+    If you run './gradlew clean build' in your project's root directory, it'll fail with an InvalidPackage lint error - [full error message](http://pastebin.com/raw.php?i=jtPwcFyE).
 
     It seems like some of the base Groovy classes make calls to unsupported java code which Android doesn't like.
 
