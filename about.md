@@ -5,3 +5,6 @@ permalink: /about/
 ---
 
 
+Soon.
+
+contact AT hosain.net
