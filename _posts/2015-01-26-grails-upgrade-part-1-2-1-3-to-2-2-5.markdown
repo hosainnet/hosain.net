@@ -2,7 +2,6 @@
 layout: post
 title: "Grails Upgrade Part 1: 2.1.3 to 2.2.5"
 date: 2015-01-26T19:58:08+00:00
-categories: [groovy, groovy 2.4, android, android studio]
 ---
 
 We have recently upgraded a fairly large web application from 2.1.3 to 2.4.4.
