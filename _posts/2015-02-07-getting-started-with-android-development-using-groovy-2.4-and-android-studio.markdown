@@ -2,6 +2,7 @@
 layout: post
 title: "Getting Started With Android Development Using Groovy 2.4 and Android Studio"
 date: 2015-02-07T18:28:25+00:00
+categories: [grails, grails 2.1.3, grails 2.1.5, grails 2.2.5, grails upgrade]
 ---
 
 Groovy 2.4 was released last month with native support for Android development.
