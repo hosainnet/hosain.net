@@ -40,7 +40,7 @@ You should see the following file structure created:
 
 ![Android project structure](/images/blog/2015/new-android-project.png)
 
-The key files for us here are the the two build.gradle files.
+The key files for us here are the two build.gradle files.
 
 The first one is project-wide build.gradle which applies to all project modules. The second build.gradle for the app's main module.
 
@@ -136,7 +136,7 @@ Let's take MainActivity.groovy as an example: try removing semicolons at the end
 
 * As I mentioned before, Android Studio doesn't fully support Groovy yet. For example you can't right click and create a Groovy class. You would have to create a empty file ending with '.groovy', and the annoying left hand side menu won't update to source folder name 'groovy'.
 
-* Annotate your classes with @CompileStatic - this is especially good if you're just starting out or don't need to use much of the dynamic stuff as it forces strict typing at compile time. **It also helps greatly in performance**.
+* Annotate your classes with [@CompileStatic](http://docs.codehaus.org/display/GroovyJSR/GEP+10+-+Static+compilation) - this is especially good if you're just starting out or don't need to use much of the dynamic stuff as it forces strict typing at compile time. **It also helps greatly in performance**.
 
         @CompileStatic
         class MainActivity extends ActionBarActivity {
