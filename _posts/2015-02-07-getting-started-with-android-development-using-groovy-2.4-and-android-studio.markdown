@@ -121,7 +121,7 @@ You should see a gradle sync message in Android Studio, click "Sync Now" and it 
 
 # Groovify it!
 
-* The groovy plugin looks for files in app/src/main/groovy, so rename main/java to main/groovy (You won't see the name change to 'groovy' in the left folder list due to the lack of Groovy support in Android Studio).
+* The groovy plugin looks for files in app/src/main/groovy, so rename main/java to main/groovy (The folder name on the left hand side will remain 'java' due to the lack of full Groovy support in Android Studio).
 
 At this point, your app should run fine! This is because **you can mix and match groovy/java code**.
 
@@ -134,7 +134,7 @@ Let's take MainActivity.groovy as an example: try removing semicolons at the end
 
 # Issues and tips
 
-* As I mentioned before, Android Studio doesn't fully support Groovy yet. For example you can't right click and create a Groovy class. You would have to create a empty file ending with '.groovy', and the annoying left hand side menu won't update to source folder name 'groovy'.
+* As I mentioned before, Android Studio doesn't fully support Groovy yet. For example you can't right click and create a Groovy class. You would have to create an empty file ending with '.groovy', and the annoying left hand side menu won't update to source folder name 'groovy'.
 
 * Annotate your classes with [@CompileStatic](http://docs.codehaus.org/display/GroovyJSR/GEP+10+-+Static+compilation) - this is especially good if you're just starting out or don't need to use much of the dynamic stuff as it forces strict typing at compile time. **It also helps greatly in performance**.
 
