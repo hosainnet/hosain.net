@@ -52,3 +52,5 @@ _site
 .sass-cache
 
 _deploy.yml
+
+.jekyll-metadata
