@@ -144,7 +144,7 @@ ServiceModule.java
          
              @Provides
              @Singleton
-             public ApiService providesNetworkService() {
+             public ApiService providesApiService() {
                  Retrofit retrofit = new Retrofit.Builder()
                          .baseUrl("http://reddit.com")
                          .addConverterFactory(GsonConverterFactory.create())
@@ -269,7 +269,7 @@ ServiceModule.java
 
     @Provides
     @Singleton
-    public ApiService providesNetworkService(RetrofitService retrofitService) {
+    public ApiService providesApiService(RetrofitService retrofitService) {
         Retrofit retrofit = retrofitService.buildRedditRetrofit();
         return retrofit.create(ApiService.class);
     }
