@@ -83,7 +83,7 @@ It could still do with more improvements but we see the benefits straight away: 
 ### Dependencies
 * Add android-apt plugin to the project's build.gradle to assist with Dagger's compile time dependency:
 
-build.gradle (project)
+    build.gradle (project)
 
          buildscript {
              repositories {
@@ -97,9 +97,15 @@ build.gradle (project)
              }
          }
  
+* Apply the plugin you've just loaded to the top of your app's build.gradle:
+        
+    build.gradle (app)
+        
+        apply plugin: 'com.neenbedankt.android-apt'
+
 * Add the dagger and the javax annotations dependencies to your app's build.gradle:
 
-build.gradle (app)
+    build.gradle (app)
 
         dependencies {
             .
