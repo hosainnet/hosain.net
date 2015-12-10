@@ -46,7 +46,7 @@ There is a key problem with the code: the Activity knows too much. It knows how 
 
 # Dagger 2
 
-[Dagger 2](http://google.github.io/dagger/) is a lightweight DI framework by Google. It uses a annotations processing to easily declare dependencies between classes without a lot of boilerplate code.
+[Dagger 2](http://google.github.io/dagger/) is a lightweight DI framework by Google. It uses annotations processing to easily declare dependencies between classes without a lot of boilerplate code.
 
 Consider the following revised version of our previous example, using Dagger 2:
 
