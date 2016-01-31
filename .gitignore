@@ -54,3 +54,6 @@ _site
 _deploy.yml
 
 .jekyll-metadata
+
+.code-highlighter-cache/
+keys/
