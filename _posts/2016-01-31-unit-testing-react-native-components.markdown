@@ -22,7 +22,7 @@ I'll take you through an example based on a modified version of the movie listin
 
 ## package.json
 
-First of all we need to include some dev dependencies: `babel-jest` (JS compiler), the `jest-cli` and `react-addons-test-utils` (shallow renderer). We've also defined our `npm test` command to execute our tests with the configurations defined in the `jest` block
+First of all we need to include some dev dependencies: `babel-jest` (JS compiler), the `jest-cli` and `react-addons-test-utils` (shallow renderer). We've also defined our `npm test` command to execute our tests with the configurations in the `jest` block
 
 `package.json`
  
@@ -163,7 +163,7 @@ renderLoadingView() {
 }
 {% endcodeblock %}
 
-render() will return a different view based on the boolean state value of `loaded`, so we want to be able to write two different tests to cover both branches, here what it looks like:
+render() will return a different view based on the boolean state value of `loaded`, so we want to be able to write two different tests to cover both branches, here is what it looks like:
 
 
 `js/__tests__/view/MovieView-test.js`
@@ -211,7 +211,7 @@ describe('MovieView', () => {
 });
 {% endcodeblock %}
 
-First, we define a `renderScreen` helper function, which allows us to render a component using the shallow renderer and it returns us the output and a component instance. You'll notice the `props` and `states` parameters which are passed to the renderer, meaning we're able render the component in a pre-defined set of.. states and props! 
+First, we define a `renderScreen` helper function, which allows us to render a component using the shallow renderer and it returns an output and a component instance. You'll notice the `props` and `states` parameters which are passed to the renderer, meaning we're able render the component in a pre-defined set of.. states and props! 
  
 
 ## Testing JS code in React Native components
@@ -242,7 +242,7 @@ class MoviesView extends Component {
     //...
 {% endcodeblock %}
 
-To test that `componentDidMount` makes a call to DataService, we can do the following:
+To test that `componentDidMount` makes a call to DataService::
  
 {% codeblock lang:javascript %}
 
@@ -264,12 +264,11 @@ describe('MovieView', () => {
     });
 {% endcodeblock %}
 
-Here, we provide a custom DataService prop on MovieView, render the screen and extract `instance`, manually invoke `componentDidMount` on it and assert that our mock implementation of `fetchData` was invoked with the correct parameters.
+Here, we pass MovieView a custom DataService prop, render the screen and extract `instance`, manually invoke `componentDidMount` on it and assert that our mock implementation of `fetchData` was invoked with the correct parameters.
 
 ## Running the tests
 
 `npm test` should now run and give you some test results!
 
-
-
+![Android project structure](/images/blog/2016/rn-unit-tests.png)
 
