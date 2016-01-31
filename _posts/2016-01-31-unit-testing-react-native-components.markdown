@@ -4,13 +4,17 @@ title: Unit Testing React Native Components
 date: 2016-01-31T09:36:05+00:00
 ---
 
-I've recently jumped ship to React/React Native (and JS in general) and one of the first hurdles for me was figuring out how unit test RN component code. 
+tldr: [github.com/hosainnet/RNUnitTests](https://github.com/hosainnet/RNUnitTests)
 
-As many of us starting out, you'll have probably come across the [snowflake](https://github.com/bartonhammond/snowflake) for guidance and inspiration (which deserves credit for most of the content in this post). However since it's a big project with a large set of dependencies and files, I wanted to go through the minimal setup needed to go from `react-native init AwesomeProject` to being able to run `npm test` and get some reports back.
+I've recently jumped ship to React/React Native (and JS in general) and one of the first hurdles for me was figuring out how to unit test RN component code. 
+
+As many of us starting out, you'll have probably come across the [snowflake](https://github.com/bartonhammond/snowflake) project for guidance and inspiration (which deserves credit for most of the content in this post). However since it's a big project with a large set of dependencies and files, I wanted to go through the minimal setup needed to go from `react-native init AwesomeProject` to being able to run `npm test` and get some results back.
 
 ## The concept
 
-The way we can easily test RN views is simply by mocking its built-in components/modules with a ***React*** equivalent, and then use existing JS/React testing frameworks to test our RN code (one of the popular ones is [jest](https://www.npmjs.com/package/jest-cli)). Then using a "shallow renderer" we're able to traverse our view as an object and verify that it matches our expectation. More importantly, the shallow renderer gives us an instance of our component which we can use to invoke and test JS functions within our components as explained below. 
+We can easily test RN views by mocking its built-in components/modules with a ***React*** equivalent, and then use existing JS/React testing frameworks to test our RN code (one of the popular ones is [jest](https://www.npmjs.com/package/jest-cli)). Then using a "shallow renderer" we're able to traverse our view as an object and verify that it matches our expectation. 
+
+As well as testing output, the shallow renderer gives us an instance of our component which we can use to invoke and test JS functions as explained below. 
 
 I'll take you through an example based on a modified version of the movie listing app from the official RN docs.
 
@@ -21,13 +25,12 @@ I'll take you through an example based on a modified version of the movie listin
 First of all we need to include some dev dependencies: `babel-jest` (JS compiler), the `jest-cli` and `react-addons-test-utils` (shallow renderer). We've also defined our `npm test` command to execute our tests with the configurations defined in the `jest` block
 
 `package.json`
-```json
+ 
+{% codeblock lang:javascript %}
 {
-  .
-  .
+  //...
   "scripts": {
-    .
-    .
+    //...
     "test": "rm -rf ./node_modules/jest-cli/.haste_cache && jest"
   },
   "jest": {
@@ -49,8 +52,7 @@ First of all we need to include some dev dependencies: `babel-jest` (JS compiler
     "collectCoverage": true
   },
   "dependencies": {
-    .
-    .
+    //...
     "react-native": "^0.18.1"
   },
   "devDependencies": {
@@ -59,12 +61,12 @@ First of all we need to include some dev dependencies: `babel-jest` (JS compiler
     "react-addons-test-utils": "^0.14.6"
   }
 }
-```
+{% endcodeblock %}
 
 
 ### Folder structure
 
-```
+{% codeblock lang:javascript %}
 ├── js
 │   ├── __mocks__
 │   │   └── react-native.js
@@ -75,17 +77,17 @@ First of all we need to include some dev dependencies: `babel-jest` (JS compiler
 │   │   └── DataService.js
 │   └── view
 │       └── MoviesView.js
-```
+{% endcodeblock %}
 
-#### `___mocks___`
+#### `___mocks___/react-native.js`
 
-This contains the key file that jest will use to replace all the ReactNative components with dummy React views or simple objects.
+This is the key file that jest will use to replace all the ReactNative components with dummy React views or simple objects.
 
 You'll find yourself coming to this file quite often as you add more code to your views. Basically any time you get a 'cannot called x on undefined' when running tests, you've likely added some new component code in your view but it was not mocked here.
 
+ 
+{% codeblock lang:javascript %}
 
-`__mocks__/react-native.js`
-```
 const React = require('react');
 const ReactNative = React;
 
@@ -94,6 +96,7 @@ ReactNative.StyleSheet = {
         return styles;
     }
 };
+
 class View extends React.Component {
     render() { return false; }
 }
@@ -120,7 +123,8 @@ ReactNative.Image = View;
 ReactNative.AppRegistry = AppRegistry;
 
 module.exports = ReactNative;
-```
+{% endcodeblock %}
+
 
 #### `___tests___`
 
@@ -131,38 +135,40 @@ For jest to pick up test files, they need to be in a `___tests___` folder. You c
 Consider we have the following render code:
 
 `js/view/MoviesView.js`
-```
-    render() {
-        if (!this.state.loaded) {
-            return this.renderLoadingView();
-        }
+ 
+{% codeblock lang:javascript %}
 
-        return (
-            <ListView
-                dataSource={this.state.dataSource}
-                renderRow={this.renderMovie}
-                style={styles.listView}
-            />
-        );
+render() {
+    if (!this.state.loaded) {
+        return this.renderLoadingView();
     }
 
-    renderLoadingView() {
-        return (
-            <View style={styles.container}>
-                <Text>
-                    Loading movies...
-                </Text>
-            </View>
-        );
-    }
-```
+    return (
+        <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this.renderMovie}
+            style={styles.listView}
+        />
+    );
+}
 
-render() will return a different view based on the state boolean value of `loaded`, so we want to be able to write two different tests to cover both branches, here what it looks like:
+renderLoadingView() {
+    return (
+        <View style={styles.container}>
+            <Text>
+                Loading movies...
+            </Text>
+        </View>
+    );
+}
+{% endcodeblock %}
+
+render() will return a different view based on the boolean state value of `loaded`, so we want to be able to write two different tests to cover both branches, here what it looks like:
 
 
-js/__tests__/view/MovieView-test.js
-
-```
+`js/__tests__/view/MovieView-test.js`
+ 
+{% codeblock lang:javascript %}
 const React = require('react-native');
 const { View } = React;
 
@@ -203,8 +209,7 @@ describe('MovieView', () => {
     });
 
 });
-
-```
+{% endcodeblock %}
 
 First, we define a `renderScreen` helper function, which allows us to render a component using the shallow renderer and it returns us the output and a component instance. You'll notice the `props` and `states` parameters which are passed to the renderer, meaning we're able render the component in a pre-defined set of.. states and props! 
  
@@ -213,8 +218,9 @@ First, we define a `renderScreen` helper function, which allows us to render a c
 
 Now the other part of our component deals with requesting data from `DataService.js`. Consider the following:
 
-```
-
+ 
+{% codeblock lang:javascript %}
+//...
 let DataService;
 
 class MoviesView extends Component {
@@ -234,11 +240,12 @@ class MoviesView extends Component {
     }
 
     //...
-```
+{% endcodeblock %}
 
 To test that `componentDidMount` makes a call to DataService, we can do the following:
+ 
+{% codeblock lang:javascript %}
 
-```
 describe('MovieView', () => {
     let moviesView;
 
@@ -255,13 +262,13 @@ describe('MovieView', () => {
         expect(initialProps.dataService.fetchData.mock.calls.length).toBe(1);
         expect(initialProps.dataService.fetchData.mock.calls[0][0]).toBe(instance.onDataResponse);
     });
-```
+{% endcodeblock %}
 
 Here, we provide a custom DataService prop on MovieView, render the screen and extract `instance`, manually invoke `componentDidMount` on it and assert that our mock implementation of `fetchData` was invoked with the correct parameters.
 
+## Running the tests
 
- 
- 
+`npm test` should now run and give you some test results!
 
 
 
