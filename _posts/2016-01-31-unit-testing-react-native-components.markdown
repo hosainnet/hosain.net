@@ -63,6 +63,15 @@ First of all we need to include some dev dependencies: `babel-jest` (JS compiler
 }
 {% endcodeblock %}
 
+## `.babel.rc`
+
+Add this file to the root directory for configuring Babel
+
+{% codeblock lang:javascript %}
+{
+    "extends": "react-native/packager/react-packager/.babelrc"
+}
+{% endcodeblock %}
 
 ### Folder structure
 
@@ -79,7 +88,7 @@ First of all we need to include some dev dependencies: `babel-jest` (JS compiler
 │       └── MoviesView.js
 {% endcodeblock %}
 
-#### `___mocks___/react-native.js`
+#### `__mocks__/react-native.js`
 
 This is the key file that jest will use to replace all the ReactNative components with dummy React views or simple objects.
 
@@ -126,9 +135,9 @@ module.exports = ReactNative;
 {% endcodeblock %}
 
 
-#### `___tests___`
+#### `__tests__`
 
-For jest to pick up test files, they need to be in a `___tests___` folder. You can have many of these folders sitting by your components but I've decided to just have one high level one to separate the test code.
+For jest to pick up test files, they need to be in a `__tests__` folder. You can have many of these folders sitting by your components but I've decided to just have one high level one to separate the test code.
 
 ## Testing rendered output
 
@@ -272,3 +281,5 @@ Here, we pass MovieView a custom DataService prop, render the screen and extract
 
 ![Android project structure](/images/blog/2016/rn-unit-tests.png)
 
+
+Working example: [github.com/hosainnet/RNUnitTests](https://github.com/hosainnet/RNUnitTests)
