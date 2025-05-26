@@ -26,7 +26,7 @@ First of all we need to include some dev dependencies: `babel-jest` (JS compiler
 
 `package.json`
  
-{% codeblock lang:javascript %}
+```json
 {
   //...
   "scripts": {
@@ -61,21 +61,21 @@ First of all we need to include some dev dependencies: `babel-jest` (JS compiler
     "react-addons-test-utils": "^0.14.6"
   }
 }
-{% endcodeblock %}
+```
 
 ## `.babel.rc`
 
 Add this file to the root directory for configuring Babel
 
-{% codeblock lang:javascript %}
+```json
 {
     "extends": "react-native/packager/react-packager/.babelrc"
 }
-{% endcodeblock %}
+```
 
 ### Folder structure
 
-{% codeblock lang:javascript %}
+```
 ├── js
 │   ├── __mocks__
 │   │   └── react-native.js
@@ -87,6 +87,7 @@ Add this file to the root directory for configuring Babel
 │   └── view
 │       └── MoviesView.js
 {% endcodeblock %}
+```
 
 #### `__mocks__/react-native.js`
 
@@ -94,8 +95,8 @@ This is the key file that jest will use to replace all the ReactNative component
 
 You'll find yourself coming to this file quite often as you add more code to your views. Basically any time you get a 'cannot called x on undefined' when running tests, you've likely added some new component code in your view but it was not mocked here.
 
- 
-{% codeblock lang:javascript %}
+
+```js
 
 const React = require('react');
 const ReactNative = React;
@@ -132,7 +133,7 @@ ReactNative.Image = View;
 ReactNative.AppRegistry = AppRegistry;
 
 module.exports = ReactNative;
-{% endcodeblock %}
+```
 
 
 #### `__tests__`
@@ -144,8 +145,8 @@ For jest to pick up test files, they need to be in a `__tests__` folder. You can
 Consider we have the following render code:
 
 `js/view/MoviesView.js`
- 
-{% codeblock lang:javascript %}
+
+```js
 
 render() {
     if (!this.state.loaded) {
@@ -170,14 +171,14 @@ renderLoadingView() {
         </View>
     );
 }
-{% endcodeblock %}
+```
 
 render() will return a different view based on the boolean state value of `loaded`, so we want to be able to write two different tests to cover both branches, here is what it looks like:
 
 
 `js/__tests__/view/MovieView-test.js`
- 
-{% codeblock lang:javascript %}
+
+```js
 const React = require('react-native');
 const { View } = React;
 
@@ -218,7 +219,7 @@ describe('MovieView', () => {
     });
 
 });
-{% endcodeblock %}
+```
 
 First, we define a `renderScreen` helper function, which allows us to render a component using the shallow renderer and it returns an output and a component instance. You'll notice the `props` and `states` parameters which are passed to the renderer, meaning we're able render the component in a pre-defined set of.. states and props! 
  
@@ -227,8 +228,8 @@ First, we define a `renderScreen` helper function, which allows us to render a c
 
 Now the other part of our component deals with requesting data from `DataService.js`. Consider the following:
 
- 
-{% codeblock lang:javascript %}
+
+```js
 //...
 let DataService;
 
@@ -249,11 +250,11 @@ class MoviesView extends Component {
     }
 
     //...
-{% endcodeblock %}
+```
 
 To test that `componentDidMount` makes a call to DataService::
- 
-{% codeblock lang:javascript %}
+
+```js
 
 describe('MovieView', () => {
     let moviesView;
@@ -261,9 +262,9 @@ describe('MovieView', () => {
     const initialProps = {
         dataService: {fetchData: jest.genMockFn()}
     };
-        
+
     //renderScreen...
-    
+
     it('should fetch data on componentDidMount', () => {
         moviesView = renderScreen(initialProps);
         const {instance} = moviesView;
@@ -271,7 +272,8 @@ describe('MovieView', () => {
         expect(initialProps.dataService.fetchData.mock.calls.length).toBe(1);
         expect(initialProps.dataService.fetchData.mock.calls[0][0]).toBe(instance.onDataResponse);
     });
-{% endcodeblock %}
+})
+```
 
 Here, we pass MovieView a custom DataService prop, render the screen and extract `instance`, manually invoke `componentDidMount` on it and assert that our mock implementation of `fetchData` was invoked with the correct parameters.
 

@@ -57,3 +57,6 @@ _deploy.yml
 
 .code-highlighter-cache/
 keys/
+public/
+resources/
+.hugo_build.lock
