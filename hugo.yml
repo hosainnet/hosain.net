@@ -80,6 +80,8 @@ params:
       url: "https://x.com/hosainnet"
     - name: github
       url: "https://github.com/hosainnet"
+    - name: linkedin
+      url: "https://www.linkedin.com/in/hosain-a-35269033/"
 
   analytics:
     google:
